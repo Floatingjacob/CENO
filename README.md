@@ -1,4 +1,4 @@
-# CE-NO
+# CENO
 Color Encoder, Naturally Original
 
 
