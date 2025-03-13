@@ -36,9 +36,9 @@ def decode(img):
 
 def decode_zip(zip_file_path, output_file_path):
     with zipfile.ZipFile(zip_file_path, 'r') as zipf:
-        zipf.extract("color_ce,no.png", "/tmp")
+        zipf.extract("color_ceno.png", "/tmp")
 
-    img = Image.open("/tmp/color_ce,no.png")
+    img = Image.open("/tmp/color_ceno.png")
     decoded_data = decode(img)
 
     with open(output_file_path, "wb") as f:
