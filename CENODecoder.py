@@ -29,7 +29,7 @@ def decode_file():
     if compression_flag:
         decoded_data = zlib.decompress(decoded_data)
 
-    # Extract the original file name (without _encoded.png)
+    # Extract the original file name (without .png)
     base_name = image_path.replace(".png", "")
     
     # Save the decoded file with the original name (excluding .png)
