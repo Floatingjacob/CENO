@@ -16,5 +16,7 @@ Run the decoder to (you guessed it) decode the encoded file back to the original
 
 
 
-V1.0.1
+V1.1.0
 Made encoding/decoding way faster and more efficent.
+V1.1.1
+Fixed a bug where certian files would not be decoded. Removed zlib.
