@@ -1,6 +1,6 @@
-import zlib
 import os
 from PIL import Image
+
 Image.MAX_IMAGE_PIXELS = None
 
 # Helper: Extract 18-bit data from a pixel
@@ -17,21 +17,16 @@ def decode_file():
     # Extract binary data from image
     binary_data = ''.join(pixel_to_bits(p) for p in pixels)
 
-    # Retrieve metadata (file length + compression flag)
-    length = int(binary_data[:32], 2)
-    compression_flag = int(binary_data[32:40], 2)
-    data_bits = binary_data[40:40 + (length * 8)]
+    # Retrieve metadata (file length)
+    length = int(binary_data[:32], 2)  # Read first 32 bits for length
+    data_bits = binary_data[32:32 + (length * 8)]  # Extract raw data bits
 
     # Convert bits to bytes
     decoded_data = bytes(int(data_bits[i:i + 8], 2) for i in range(0, len(data_bits), 8))
 
-    # Decompress if needed
-    if compression_flag:
-        decoded_data = zlib.decompress(decoded_data)
-
     # Extract the original file name (without .png)
     base_name = image_path.replace(".png", "")
-    
+
     # Save the decoded file with the original name (excluding .png)
     with open(base_name, "wb") as f:
         f.write(decoded_data)
