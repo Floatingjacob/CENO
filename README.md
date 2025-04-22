@@ -1,5 +1,5 @@
-# CENO
-Color Encoder, Naturally Original
+# PIXEL
+PIXEL – Portable Image eXchange and Encoding Layer
 
 
 This was a random idea,
