@@ -1,5 +1,5 @@
 # PIXEL
-PIXEL – Portable Image eXchange and Encoding Layer
+PIXEL – Portable Image eXchange and Encoding Logic
 
 
 This was a random idea,
