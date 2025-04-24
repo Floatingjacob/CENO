@@ -1,37 +1,31 @@
 import os
 from PIL import Image
 
-Image.MAX_IMAGE_PIXELS = None
 
-# Helper: Extract 18-bit data from a pixel
-def pixel_to_bits(pixel):
-    r, g, b = pixel
-    return f"{r:06b}{g:06b}{b:06b}"
+def index_to_data(index):
+    return index
 
-# Decode the image to original data
 def decode_file():
     print(f"Welcome to PIXEL!")
     image_path = input("Enter the encoded image path: ")
     img = Image.open(image_path)
-    pixels = list(img.getdata())
-
-    # Extract binary data from image
-    binary_data = ''.join(pixel_to_bits(p) for p in pixels)
-
-    # Retrieve metadata (file length)
-    length = int(binary_data[:32], 2)  # Read first 32 bits for length
-    data_bits = binary_data[32:32 + (length * 8)]  # Extract raw data bits
-
-    # Convert bits to bytes
-    decoded_data = bytes(int(data_bits[i:i + 8], 2) for i in range(0, len(data_bits), 8))
-
-    # Extract the original file name (without .png)
+    palette = img.getpalette()
+    pixel_indices = list(img.getdata())
+    metadata = pixel_indices[:4]
+    file_length = int.from_bytes(bytes(metadata), byteorder='big')
+    print(f"Decoded file length from metadata: {file_length}")
+    print(f"Total pixels in image: {len(pixel_indices)}")
+    print(f"Total data pixels (excluding metadata): {len(pixel_indices) - 4}")
+    data_indices = pixel_indices[4:]
+    expected_data_pixels = file_length
+    trimmed_data_indices = data_indices[:expected_data_pixels]
+    data_bytes = bytearray([index_to_data(index) for index in trimmed_data_indices])
+    if len(data_bytes) != file_length:
+        print(f"Warning: Decoded data length ({len(data_bytes)}) does not match expected file length ({file_length}).")
+        return
     base_name = image_path.replace(".png", "")
-
-    # Save the decoded file with the original name (excluding .png)
     with open(base_name, "wb") as f:
-        f.write(decoded_data)
+        f.write(data_bytes)
 
     print(f"File has been decoded and saved as: {base_name}")
-
 decode_file()
