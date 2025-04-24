@@ -22,3 +22,6 @@ Made encoding/decoding way faster and more efficent.
 
 V1.1.1
 Fixed a bug where certian files would not be decoded. Removed zlib.
+
+V1.5
+Made encoded file sizes slightly smaller
